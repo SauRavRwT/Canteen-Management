@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/Canteen-Management/static/css/main.4321a095.css",
-    "main.js": "/Canteen-Management/static/js/main.4889d527.js",
+    "main.css": "/Canteen-Management/static/css/main.b8692c53.css",
+    "main.js": "/Canteen-Management/static/js/main.3d0e07e2.js",
     "static/js/239.92e34e44.chunk.js": "/Canteen-Management/static/js/239.92e34e44.chunk.js",
     "static/js/213.2171fe5f.chunk.js": "/Canteen-Management/static/js/213.2171fe5f.chunk.js",
     "static/js/455.1870e780.chunk.js": "/Canteen-Management/static/js/455.1870e780.chunk.js",
     "static/js/453.db920184.chunk.js": "/Canteen-Management/static/js/453.db920184.chunk.js",
     "index.html": "/Canteen-Management/index.html",
-    "main.4321a095.css.map": "/Canteen-Management/static/css/main.4321a095.css.map",
-    "main.4889d527.js.map": "/Canteen-Management/static/js/main.4889d527.js.map",
+    "main.b8692c53.css.map": "/Canteen-Management/static/css/main.b8692c53.css.map",
+    "main.3d0e07e2.js.map": "/Canteen-Management/static/js/main.3d0e07e2.js.map",
     "239.92e34e44.chunk.js.map": "/Canteen-Management/static/js/239.92e34e44.chunk.js.map",
     "213.2171fe5f.chunk.js.map": "/Canteen-Management/static/js/213.2171fe5f.chunk.js.map",
     "455.1870e780.chunk.js.map": "/Canteen-Management/static/js/455.1870e780.chunk.js.map",
     "453.db920184.chunk.js.map": "/Canteen-Management/static/js/453.db920184.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4321a095.css",
-    "static/js/main.4889d527.js"
+    "static/css/main.b8692c53.css",
+    "static/js/main.3d0e07e2.js"
   ]
 }
