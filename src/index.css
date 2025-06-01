@@ -22,14 +22,20 @@ code {
   }
 }
 
+/* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #0d6efd;
-  border-radius: 100%;
-  border: 2px solid #0d6efd;
+  border-radius: 20px;
+  border:  #0d6efd;
+  box-shadow: inset 0 0 5px #0d6efd;
+  transition: background-color 0.3s ease;
 }
-::-webkit-scrollbar-track {
-  border-radius: 100%;
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #063781;
+  transition: background-color 0.4s ease;
 }
