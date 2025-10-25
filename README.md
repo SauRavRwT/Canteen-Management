@@ -49,24 +49,17 @@ Follow these steps to run the project on your computer:
    ```
 
 4. **Set Up Firebase**:
+
+- Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+   - Register a web app within your Firebase project.
+   - Enable Firebase Authentication and set up the desired sign-in methods.
+   - Copy your Firebase configuration keys.
+   - Rename `.env.example` to `.env` and add your Firebase keys.
+   - Apply `auth != null` to admin, sales, product read/write database rules.
    - Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
       - Register a web app within your Firebase project.
       - Enable Firebase Authentication and set up the desired sign-in methods.
       - Copy the Firebase configuration and create a `firebase.js` file in the project directory:
-
-        ```javascript
-        // firebase.js
-        export const firebaseConfig = {
-          apiKey: "your_api_key",
-          authDomain: "your_auth_domain",
-          databaseURL: "your_database_url",
-          projectId: "your_project_id",
-          storageBucket: "your_storage_bucket",
-          messagingSenderId: "your_messaging_sender_id",
-          appId: "your_app_id"
-        };
-        ```
-
       - Import the provided `./src/Database/Database.json` file into your Firebase Realtime Database and update the `AdminUserId` field with the admin user ID from Firebase Authentication.
       - Apply `auth != null` to admin, sales, product read/write database rules.
 
@@ -76,16 +69,6 @@ Follow these steps to run the project on your computer:
    ```
 
 6. Open the app in your browser at [http://localhost:3000](http://localhost:3000).
-
-## Changelog
-
-### Latest Updates (Version 1.5.0 - March 17, 2025)
-- Improved backend rules.
-- Added images to login and signup pages.
-- Restricted admin access to authorized users only.
-- Added support for private properties in the code.
-
-For a full list of updates, check the **Changelog** section in the repository.
 
 ## Contributing
 
