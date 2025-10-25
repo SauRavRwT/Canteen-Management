@@ -125,6 +125,14 @@ const OrderHistory = () => {
     });
   };
 
+  // Sticky header style for table
+  const stickyHeaderStyle = {
+    position: "sticky",
+    top: 0,
+    background: "#fff",
+    zIndex: 2,
+  };
+
   return (
     <Card className="mt-4">
       <Card.Header>
@@ -141,30 +149,33 @@ const OrderHistory = () => {
         />
       </Card.Header>
       <Card.Body>
-        <div className="table-responsive">
+        <div
+          className="table-responsive"
+          style={{ maxHeight: "400px", overflowY: "auto" }}
+        >
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th
-                  style={{ cursor: "pointer" }}
+                  style={{ ...stickyHeaderStyle, cursor: "pointer" }}
                   onClick={() => handleSort("date")}
                 >
                   Date{" "}
                   {sortConfig.key === "date" &&
                     (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
-                <th>Order ID</th>
-                <th>User Email</th>
-                <th>Items</th>
+                <th style={stickyHeaderStyle}>Order ID</th>
+                <th style={stickyHeaderStyle}>User Email</th>
+                <th style={stickyHeaderStyle}>Items</th>
                 <th
-                  style={{ cursor: "pointer" }}
+                  style={{ ...stickyHeaderStyle, cursor: "pointer" }}
                   onClick={() => handleSort("total")}
                 >
                   Total{" "}
                   {sortConfig.key === "total" &&
                     (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
-                <th>Status</th>
+                <th style={stickyHeaderStyle}>Status</th>
               </tr>
             </thead>
             <tbody>
