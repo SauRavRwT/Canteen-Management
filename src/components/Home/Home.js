@@ -20,7 +20,15 @@ const Home = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const { products, updateProductQuantity } = useProducts();
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem("cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error("Failed to parse cart from localStorage:", error);
+      return [];
+    }
+  });
   const [showCartModal, setShowCartModal] = useState(false);
   const [originalQuantities, setOriginalQuantities] = useState({});
   const [showCheckoutToast, setShowCheckoutToast] = useState(false);
@@ -55,6 +63,15 @@ const Home = () => {
       setShowAdmin(false);
     }
   }, [currentUser]);
+
+  // Persist cart to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } catch (error) {
+      console.error("Failed to save cart to localStorage:", error);
+    }
+  }, [cart]);
 
   const generatePDF = () => {
     const doc = new jsPDF();
@@ -213,6 +230,11 @@ const Home = () => {
     update(saleRef, saleData);
 
     setCart([]);
+    try {
+      localStorage.removeItem("cart");
+    } catch (error) {
+      console.error("Failed to remove cart from localStorage:", error);
+    }
     setShowCartModal(false);
     setShowCheckoutToast(true);
     setTimeout(() => setShowCheckoutToast(false), 3000);
