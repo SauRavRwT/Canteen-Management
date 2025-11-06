@@ -27,11 +27,11 @@ const CartModal = ({
             {cart.map((product) => (
               <div
                 key={product.id}
-                className="d-flex justify-content-between align-items-center mb-3"
+                className="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded-4"
               >
                 <div className="d-flex align-items-center">
                   <img
-                    className="img-fluid rounded-3 me-3"
+                    className="img-fluid rounded-4 me-3"
                     src={product.image}
                     alt={product.name}
                     style={{
@@ -47,20 +47,20 @@ const CartModal = ({
                 </div>
                 <div className="d-flex align-items-center">
                   <button
-                    className="btn btn-sm btn-outline-secondary mx-1 rounded-circle"
+                    className="btn btn-sm btn-outline-secondary mx-1 rounded-4"
                     onClick={() => decrementQuantity(product.id)}
                   >
                     -
                   </button>
                   <span className="mx-2">{product.quantity}</span>
                   <button
-                    className="btn btn-sm btn-outline-secondary mx-1 rounded-circle"
+                    className="btn btn-sm btn-outline-secondary mx-1 rounded-4"
                     onClick={() => incrementQuantity(product.id)}
                   >
                     +
                   </button>
                   <button
-                    className="btn btn-sm btn-outline-danger mx-1 rounded-3"
+                    className="btn btn-sm btn-outline-danger mx-1 rounded-4"
                     onClick={() => removeFromCart(product)}
                   >
                     Remove
@@ -77,12 +77,12 @@ const CartModal = ({
         </h4>
         <Button
           variant="outline-danger"
-          className="rounded-3"
+          className="rounded-4"
           onClick={clearCart}
         >
           Clear Cart
         </Button>
-        <Button variant="success" className="rounded-3" onClick={checkout}>
+        <Button variant="success" className="rounded-4" onClick={checkout}>
           Checkout
         </Button>
       </Modal.Footer>

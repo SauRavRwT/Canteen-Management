@@ -11,41 +11,46 @@ const ProductDetailModal = ({ show, handleClose, product, addToCart }) => {
 
   return (
     <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header closeButton></Modal.Header>
-      <Modal.Body>
-        <div className="text-center mb-3">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="img-fluid rounded"
-            style={{ maxHeight: "250px", border: "1px solid #ddd" }}
-          />
+      <Modal.Header>
+        <Modal.Title className="fw-bold fs-2">{product.name}</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body className="text-center">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="img-fluid rounded mb-3"
+          style={{ maxHeight: "300px" }}
+        />
+
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <small className="text-dark">₹{product.price}</small>
+          <small className={product.quantity ? "text-success" : "text-danger"}>
+            {product.quantity ? `${product.quantity} left` : "Out of stock"}
+          </small>
         </div>
-        <div className="d-flex flex-row align-items-center justify-content-between gap-2">
-          <div className="col-6">
-            <h3 className="w-100 fw-bold">{product.name}</h3>
-            <p className="mb-1">
-              <strong>Price:</strong> ₹{product.price}
-            </p>
-            <p className="mb-1">
-              <strong>Quantity Remaining:</strong> {product.quantity}
-            </p>
-          </div>
-          <Button
-            className="col btn btn-primary rounded-3 w-100"
-            onClick={handleAddToCart}
-            disabled={product.quantity === 0}
-          >
-            Add to Cart
-          </Button>
-        </div>
-        <div className="card-body">
-          <h5 className="mt-4 card-title fw-bold">Product Information:</h5>
-          <p className="card-text">
-            {product.description || "No description available."}
-          </p>
-        </div>
+
+        <p
+          className="mb-0 text-start"
+          style={{ maxHeight: "6rem", overflow: "auto" }}
+        >
+          {product.description || "No description available."}
+        </p>
       </Modal.Body>
+
+      <Modal.Footer>
+        <Button className="rounded-4" variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button
+          className="rounded-4"
+          variant="primary"
+          onClick={handleAddToCart}
+          disabled={product.quantity === 0}
+        >
+          Add to Cart
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };
