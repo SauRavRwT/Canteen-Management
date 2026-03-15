@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Card, Form, Button, Alert, Container } from "react-bootstrap";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -44,8 +45,14 @@ const Login = () => {
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}
     >
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card className="rounded-4">
+      <motion.div 
+        className="w-100" 
+        style={{ maxWidth: "400px" }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Card className="rounded-4 shadow-sm border-0">
           <Card.Body>
             <h2 className="mb-4 fw-bold p-2">Login</h2>
             {error && <Alert variant="danger">{error}</Alert>}
@@ -97,7 +104,7 @@ const Login = () => {
             Sign Up
           </Link>
         </div>
-      </div>
+      </motion.div>
     </Container>
   );
 };

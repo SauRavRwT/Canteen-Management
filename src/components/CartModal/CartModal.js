@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { motion, AnimatePresence } from "framer-motion";
 import "./CartModal.css";
 
 const CartModal = ({
@@ -23,11 +24,16 @@ const CartModal = ({
         {cart.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          <>
+          <AnimatePresence>
             {cart.map((product) => (
-              <div
+              <motion.div
                 key={product.id}
                 className="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded-4"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.2 }}
+                layout
               >
                 <div className="d-flex align-items-center">
                   <img
@@ -66,9 +72,9 @@ const CartModal = ({
                     Remove
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </>
+          </AnimatePresence>
         )}
       </Modal.Body>
       <Modal.Footer className="border-top-0">

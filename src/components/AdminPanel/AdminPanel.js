@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { motion } from "framer-motion";
 import { database } from "../../firebase";
 import { ref, onValue } from "firebase/database";
 import OrderHistory from "./OrderHistory.js";
@@ -218,8 +219,14 @@ const AdminPanel = () => {
 
   return (
     <Container fluid>
-      <h1 className="my-4 fw-bold">{isAdmin ? "Admin Panel" : "User Dashboard"}</h1>
-      {isAdmin ? renderAdminContent() : renderUserContent()}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="my-4 fw-bold">{isAdmin ? "Admin Panel" : "User Dashboard"}</h1>
+        {isAdmin ? renderAdminContent() : renderUserContent()}
+      </motion.div>
     </Container>
   );
 };

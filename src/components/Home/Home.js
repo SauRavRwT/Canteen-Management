@@ -15,6 +15,7 @@ import { Toast, Form, InputGroup, Container } from "react-bootstrap";
 import { useAuth } from "../../AuthContext";
 import jsPDF from "jspdf";
 import useAdmin from "../../hooks/useAdmin";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ const Home = () => {
     doc.text(
       `Customer: ${currentUser?.displayName || currentUser?.email}`,
       10,
-      44
+      44,
     );
 
     // Line separator
@@ -135,7 +136,7 @@ const Home = () => {
     });
 
     doc.save(
-      `Canteen-Bill-${date.replace(/\//g, "-")}-${time.replace(/:/g, "-")}.pdf`
+      `Canteen-Bill-${date.replace(/\//g, "-")}-${time.replace(/:/g, "-")}.pdf`,
     );
   };
 
@@ -144,7 +145,7 @@ const Home = () => {
       const productInCart = prevCart.find((p) => p.id === product.id);
       if (productInCart) {
         return prevCart.map((p) =>
-          p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
+          p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p,
         );
       }
       return [...prevCart, { ...product, quantity: 1 }];
@@ -159,8 +160,8 @@ const Home = () => {
     if (availableQuantity > 0) {
       setCart((prevCart) =>
         prevCart.map((p) =>
-          p.id === productId ? { ...p, quantity: p.quantity + 1 } : p
-        )
+          p.id === productId ? { ...p, quantity: p.quantity + 1 } : p,
+        ),
       );
     }
   };
@@ -170,8 +171,8 @@ const Home = () => {
     if (productInCart && productInCart.quantity > 1) {
       setCart((prevCart) =>
         prevCart.map((p) =>
-          p.id === productId ? { ...p, quantity: p.quantity - 1 } : p
-        )
+          p.id === productId ? { ...p, quantity: p.quantity - 1 } : p,
+        ),
       );
     }
   };
@@ -187,7 +188,7 @@ const Home = () => {
   const calculateTotal = () => {
     return cart.reduce(
       (total, product) => total + product.price * product.quantity,
-      0
+      0,
     );
   };
 
@@ -206,7 +207,7 @@ const Home = () => {
           }));
         })
         .catch((error) =>
-          console.error("Error updating product quantity:", error)
+          console.error("Error updating product quantity:", error),
         );
     });
 
@@ -244,7 +245,7 @@ const Home = () => {
 
   const filteredProducts = products
     ? products.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : [];
 
@@ -277,7 +278,11 @@ const Home = () => {
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <header className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
           <h3 className="fw-bold mb-3 mb-md-0 display-4">
@@ -437,7 +442,7 @@ const Home = () => {
         )}
       </Container>
       <Footer />
-    </>
+    </motion.div>
   );
 };
 
