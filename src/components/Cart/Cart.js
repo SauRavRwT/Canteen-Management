@@ -1,4 +1,5 @@
 import React from "react";
+import { FaTrash } from "react-icons/fa";
 
 const Cart = ({ cart, removeFromCart, clearCart, calculateTotal }) => {
   return (
@@ -21,7 +22,7 @@ const Cart = ({ cart, removeFromCart, clearCart, calculateTotal }) => {
                 className="btn btn-danger btn-sm"
                 onClick={() => removeFromCart(product)}
               >
-                Remove
+                <FaTrash />
               </button>
             </li>
           ))}

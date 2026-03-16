@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion, AnimatePresence } from "framer-motion";
 import "./CartModal.css";
+import { FaMinus, FaPlus, FaTrash} from "react-icons/fa";
 
 const CartModal = ({
   show,
@@ -53,23 +54,23 @@ const CartModal = ({
                 </div>
                 <div className="d-flex align-items-center">
                   <button
-                    className="btn btn-sm btn-outline-secondary mx-1 rounded-4"
+                    className="btn btn-sm btn-outline-secondary rounded-4"
                     onClick={() => decrementQuantity(product.id)}
                   >
-                    -
+                    <FaMinus />
                   </button>
                   <span className="mx-2">{product.quantity}</span>
                   <button
-                    className="btn btn-sm btn-outline-secondary mx-1 rounded-4"
+                    className="btn btn-sm btn-outline-secondary rounded-4"
                     onClick={() => incrementQuantity(product.id)}
                   >
-                    +
+                    <FaPlus />
                   </button>
                   <button
                     className="btn btn-sm btn-outline-danger mx-1 rounded-4"
                     onClick={() => removeFromCart(product)}
                   >
-                    Remove
+                    < FaTrash />
                   </button>
                 </div>
               </motion.div>

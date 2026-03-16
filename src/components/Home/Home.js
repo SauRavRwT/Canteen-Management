@@ -365,11 +365,13 @@ const Home = () => {
               <h1 className="fw-bold col">Today's items</h1>
               <Form.Group className="w-100 w-md-50 my-auto col">
                 <InputGroup>
-                  <InputGroup.Text>
+                  <InputGroup.Text 
+                  id="searchIcon">
                     <i className="fas fa-search"></i>
                   </InputGroup.Text>
                   <Form.Control
                     type="text"
+                    id="searchInput"
                     placeholder="Search products..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
