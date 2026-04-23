@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Canteen-Management/static/css/main.e3fba6c9.css",
+    "main.css": "/Canteen-Management/static/css/main.09710198.css",
     "main.js": "/Canteen-Management/static/js/main.4fce847e.js",
     "static/js/239.92e34e44.chunk.js": "/Canteen-Management/static/js/239.92e34e44.chunk.js",
     "static/js/213.2171fe5f.chunk.js": "/Canteen-Management/static/js/213.2171fe5f.chunk.js",
     "static/js/732.c7f14725.chunk.js": "/Canteen-Management/static/js/732.c7f14725.chunk.js",
     "static/js/453.db920184.chunk.js": "/Canteen-Management/static/js/453.db920184.chunk.js",
     "index.html": "/Canteen-Management/index.html",
-    "main.e3fba6c9.css.map": "/Canteen-Management/static/css/main.e3fba6c9.css.map",
+    "main.09710198.css.map": "/Canteen-Management/static/css/main.09710198.css.map",
     "main.4fce847e.js.map": "/Canteen-Management/static/js/main.4fce847e.js.map",
     "239.92e34e44.chunk.js.map": "/Canteen-Management/static/js/239.92e34e44.chunk.js.map",
     "213.2171fe5f.chunk.js.map": "/Canteen-Management/static/js/213.2171fe5f.chunk.js.map",
@@ -15,7 +15,7 @@
     "453.db920184.chunk.js.map": "/Canteen-Management/static/js/453.db920184.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e3fba6c9.css",
+    "static/css/main.09710198.css",
     "static/js/main.4fce847e.js"
   ]
 }
