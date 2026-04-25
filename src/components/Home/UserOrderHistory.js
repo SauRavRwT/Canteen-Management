@@ -109,6 +109,7 @@ const UserOrderHistory = () => {
         <Card.Title>My Order History</Card.Title>
         <Form.Control
           type="text"
+          id="searchInput"
           placeholder="Search by product name..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
