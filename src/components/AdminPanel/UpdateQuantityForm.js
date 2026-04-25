@@ -46,6 +46,7 @@ const UpdateQuantityForm = ({ products, setProducts }) => {
             <Form.Label>Select Product</Form.Label>
             <Form.Control
               as="select"
+              id="select_product"
               value={selectedProduct}
               onChange={(e) => setSelectedProduct(e.target.value)}
               required
@@ -62,6 +63,7 @@ const UpdateQuantityForm = ({ products, setProducts }) => {
             <Form.Label>Quantity Change (Increase/Decrease)</Form.Label>
             <Form.Control
               type="number"
+              id="quantity_change"
               placeholder="Enter quantity to add (positive) or remove (negative)"
               value={quantityChange}
               onChange={(e) => setQuantityChange(e.target.value)}

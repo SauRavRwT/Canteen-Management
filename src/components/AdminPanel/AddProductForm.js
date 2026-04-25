@@ -48,6 +48,7 @@ const AddProductForm = () => {
             <Form.Label>Product Name</Form.Label>
             <Form.Control
               type="text"
+              id="product_name"
               name="productName"
               placeholder="Enter product name"
               value={productName}
@@ -60,6 +61,7 @@ const AddProductForm = () => {
             <Form.Control
               type="number"
               name="initialPrice"
+              id="initial_price"
               step="0.1"
               min="0"
               placeholder="Enter initial product price"
@@ -75,6 +77,7 @@ const AddProductForm = () => {
               name="currentPrice"
               step="0.1"
               min="0"
+              id="product_price"
               placeholder="Enter product price"
               value={productPrice}
               onChange={(e) => setProductPrice(e.target.value)}
@@ -86,6 +89,7 @@ const AddProductForm = () => {
             <Form.Control
               as="textarea"
               name="description"
+              id="product_description"
               rows={3}
               placeholder="Enter product description"
               value={productDescription}
@@ -98,6 +102,7 @@ const AddProductForm = () => {
             <Form.Control
               type="url"
               name="imageUrl"
+              id="product_image"
               placeholder="Enter product image URL"
               value={productImage}
               onChange={(e) => setProductImage(e.target.value)}

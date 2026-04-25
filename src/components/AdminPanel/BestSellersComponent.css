@@ -1,0 +1,258 @@
+.best-sellers-card {
+  background-color: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.best-sellers-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.sellers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: 1.5rem;
+  color: var(--accent-warm);
+}
+
+.sellers-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.fire-icon {
+  font-size: 1.5rem;
+  color: var(--accent-danger);
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.sellers-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sellers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.seller-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem;
+  background-color: var(--background);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-normal);
+}
+
+.seller-item:hover {
+  background-color: rgba(46, 125, 125, 0.05);
+  border-color: var(--primary-light);
+}
+
+.seller-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rank-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.rank-badge.gold {
+  background: linear-gradient(135deg, #d4a574 0%, #c4943e 100%);
+  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+}
+
+.rank-badge.silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+  box-shadow: 0 4px 12px rgba(192, 192, 192, 0.3);
+}
+
+.rank-badge.bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #b8632d 100%);
+  box-shadow: 0 4px 12px rgba(205, 127, 50, 0.3);
+}
+
+.rank-badge.text-secondary {
+  background: linear-gradient(135deg, #999999 0%, #777777 100%);
+  box-shadow: 0 4px 12px rgba(153, 153, 153, 0.3);
+}
+
+.seller-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.seller-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.seller-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.seller-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  border-radius: 4px;
+}
+
+.seller-quantity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.quantity-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.quantity-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.no-data-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+.no-data-message p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .best-sellers-card {
+    padding: 1.5rem;
+  }
+
+  .sellers-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .sellers-title {
+    font-size: 1.1rem;
+  }
+
+  .seller-item {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .seller-bar {
+    height: 6px;
+  }
+
+  .quantity-value {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .best-sellers-card {
+    padding: 1.25rem;
+  }
+
+  .header-left {
+    gap: 0.75rem;
+  }
+
+  .header-icon {
+    font-size: 1.25rem;
+  }
+
+  .sellers-title {
+    font-size: 1rem;
+  }
+
+  .seller-item {
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 0.875rem;
+  }
+
+  .seller-rank {
+    grid-row: 1 / 3;
+  }
+
+  .rank-badge {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+
+  .seller-quantity {
+    grid-column: 1 / 3;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .quantity-value {
+    font-size: 1.1rem;
+  }
+}

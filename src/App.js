@@ -7,6 +7,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
+import About from './components/About/About';
 
 const App = () => {
   return (
@@ -18,6 +19,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/about" 
+            element={
+              <ProtectedRoute>
+                <About />
               </ProtectedRoute>
             } 
           />
