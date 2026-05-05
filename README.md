@@ -1,6 +1,6 @@
 # Canteen Management System
 
-<img src="./Images/project-3.png" width="100%">
+<img src="./Images/project-1.png" width="100%">
 
 ## Overview
 
@@ -65,10 +65,10 @@ Follow these steps to run the project on your computer:
 
 5. **Start the App**:
    ```bash
-   npm start
+   npm run dev
    ```
 
-6. Open the app in your browser at [http://localhost:3000](http://localhost:3000).
+6. Open the app in your browser at [http://localhost:5173/Canteen-Management/](http://localhost:5173/Canteen-Management/).
 
 ## Contributing
 
