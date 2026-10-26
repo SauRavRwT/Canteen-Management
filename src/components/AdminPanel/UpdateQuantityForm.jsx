@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card, Form, Button } from "react-bootstrap";
 import { ref, update } from "firebase/database";
 import { database } from "../../firebase";
 
@@ -38,14 +37,21 @@ const UpdateQuantityForm = ({ products }) => {
   };
 
   return (
-    <Card className="mb-4">
-      <Card.Header>Update Product Quantity</Card.Header>
-      <Card.Body>
-        <Form onSubmit={handleUpdateQuantity}>
-          <Form.Group controlId="updateQuantityForm-productSelect">
-            <Form.Label>Select Product</Form.Label>
-            <Form.Control
-              as="select"
+    <div className="glass-card">
+      <div style={{ padding: "1.15rem 1.5rem", borderBottom: "1px solid var(--border-color)" }}>
+        <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)" }}>
+          Update Product Quantity
+        </h4>
+      </div>
+      <div style={{ padding: "1.5rem" }}>
+        <form onSubmit={handleUpdateQuantity} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="updateQuantityForm-productSelect">
+              Select Product
+            </label>
+            <select
+              className="form-select"
+              id="updateQuantityForm-productSelect"
               value={selectedProduct}
               onChange={(e) => setSelectedProduct(e.target.value)}
               required
@@ -56,24 +62,28 @@ const UpdateQuantityForm = ({ products }) => {
                   {product.name} (Current Quantity: {product.quantity || 0})
                 </option>
               ))}
-            </Form.Control>
-          </Form.Group>
-          <Form.Group controlId="updateQuantityForm-quantityInput" className="mt-3">
-            <Form.Label>Quantity Change (Increase/Decrease)</Form.Label>
-            <Form.Control
+            </select>
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="updateQuantityForm-quantityInput">
+              Quantity Change (Increase/Decrease)
+            </label>
+            <input
+              className="form-control"
+              id="updateQuantityForm-quantityInput"
               type="number"
               placeholder="Enter quantity to add (positive) or remove (negative)"
               value={quantityChange}
               onChange={(e) => setQuantityChange(e.target.value)}
               required
             />
-          </Form.Group>
-          <Button variant="primary" type="submit" className="mt-4">
+          </div>
+          <button type="submit" className="btn btn-primary" style={{ marginTop: "0.5rem" }}>
             Update Quantity
-          </Button>
-        </Form>
-      </Card.Body>
-    </Card>
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

@@ -1,86 +1,85 @@
 .best-sellers-card {
-  background-color: var(--background-light);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-normal);
+  background: var(--glass-bg-strong);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  box-shadow: var(--shadow-glass);
+  transition:
+    transform 0.3s var(--spring),
+    box-shadow 0.3s var(--ease);
 }
 
 .best-sellers-card:hover {
+  transform: scale(1.005);
   box-shadow: var(--shadow-md);
-  border-color: var(--primary-light);
 }
 
 .sellers-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 0.5px solid var(--separator);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 8px;
 }
 
 .header-icon {
-  font-size: 1.5rem;
-  color: var(--accent-warm);
+  font-size: 1.1rem;
+  color: var(--gold);
 }
 
 .sellers-title {
-  font-size: 1.25rem;
+  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .fire-icon {
-  font-size: 1.5rem;
-  color: var(--accent-danger);
-  animation: bounce 1.5s ease-in-out infinite;
+  font-size: 1.05rem;
+  color: var(--primary);
+  animation: gentlePulse 2s ease-in-out infinite;
 }
 
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+@keyframes gentlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 .sellers-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 12px;
 }
 
 .sellers-list {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 8px;
 }
 
 .seller-item {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 1.5rem;
+  gap: 12px;
   align-items: center;
-  padding: 1.25rem;
-  background-color: var(--background);
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  transition: all var(--transition-normal);
+  padding: 10px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--separator);
+  transition: background-color var(--t-fast);
 }
 
 .seller-item:hover {
-  background-color: rgba(46, 125, 125, 0.05);
-  border-color: var(--primary-light);
+  background: var(--primary-soft);
 }
 
 .seller-rank {
@@ -90,45 +89,30 @@
 }
 
 .rank-badge {
-  width: 50px;
-  height: 50px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   color: white;
 }
 
-.rank-badge.gold {
-  background: linear-gradient(135deg, #d4a574 0%, #c4943e 100%);
-  box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
-}
-
-.rank-badge.silver {
-  background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
-  box-shadow: 0 4px 12px rgba(192, 192, 192, 0.3);
-}
-
-.rank-badge.bronze {
-  background: linear-gradient(135deg, #cd7f32 0%, #b8632d 100%);
-  box-shadow: 0 4px 12px rgba(205, 127, 50, 0.3);
-}
-
-.rank-badge.text-secondary {
-  background: linear-gradient(135deg, #999999 0%, #777777 100%);
-  box-shadow: 0 4px 12px rgba(153, 153, 153, 0.3);
-}
+.rank-badge.gold { background-color: var(--gold); }
+.rank-badge.silver { background-color: var(--silver); }
+.rank-badge.bronze { background-color: var(--bronze); }
+.rank-badge.text-secondary { background-color: var(--text-muted); }
 
 .seller-info {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 5px;
 }
 
 .seller-name {
-  font-size: 1rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
@@ -136,103 +120,76 @@
 
 .seller-bar {
   width: 100%;
-  height: 8px;
-  background-color: var(--border-color);
-  border-radius: 4px;
+  height: 4px;
+  background-color: var(--separator);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
 .seller-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
-  border-radius: 4px;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
 }
 
 .seller-quantity {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: 1px;
 }
 
 .quantity-value {
-  font-size: 1.5rem;
+  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--primary);
+  letter-spacing: -0.02em;
 }
 
 .quantity-label {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 500;
+  letter-spacing: 0.04em;
+  font-weight: 600;
 }
 
 .no-data-message {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  color: var(--text-light);
+  padding: 24px;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .no-data-message p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
 }
 
-/* Responsive Design */
+/* responsive */
 @media (max-width: 768px) {
   .best-sellers-card {
-    padding: 1.5rem;
-  }
-
-  .sellers-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .sellers-title {
-    font-size: 1.1rem;
+    padding: 16px;
   }
 
   .seller-item {
-    padding: 1rem;
-    gap: 1rem;
-  }
-
-  .seller-bar {
-    height: 6px;
+    padding: 8px;
+    gap: 10px;
   }
 
   .quantity-value {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
   }
 }
 
 @media (max-width: 480px) {
-  .best-sellers-card {
-    padding: 1.25rem;
-  }
-
-  .header-left {
-    gap: 0.75rem;
-  }
-
-  .header-icon {
-    font-size: 1.25rem;
-  }
-
-  .sellers-title {
-    font-size: 1rem;
-  }
-
   .seller-item {
     grid-template-columns: auto 1fr;
-    gap: 1rem;
-    padding: 0.875rem;
+    gap: 8px;
+    padding: 8px;
   }
 
   .seller-rank {
@@ -240,9 +197,9 @@
   }
 
   .rank-badge {
-    width: 45px;
-    height: 45px;
-    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+    font-size: 0.88rem;
   }
 
   .seller-quantity {
@@ -253,6 +210,6 @@
   }
 
   .quantity-value {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 }

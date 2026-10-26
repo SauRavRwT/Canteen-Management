@@ -4,29 +4,37 @@ import { database } from '../firebase';
 import { useAuth } from '../AuthContext';
 
 const useAdmin = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [status, setStatus] = useState({ userId: null, isAdmin: false });
   const { currentUser } = useAuth();
+  const userId = currentUser?.uid;
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      if (currentUser) {
-        const adminRef = ref(database, `admins/${currentUser.uid}`);
-        try {
-          const snapshot = await get(adminRef);
-          setIsAdmin(snapshot.exists());
-        } catch (error) {
-          console.error("Error checking admin status:", error);
-          setIsAdmin(false);
-        }
-      } else {
-        setIsAdmin(false);
-      }
+    let isCurrent = true;
+
+    if (!userId) return () => {
+      isCurrent = false;
     };
 
-    checkAdminStatus();
-  }, [currentUser]);
+    const adminRef = ref(database, `admins/${userId}`);
+    get(adminRef)
+      .then((snapshot) => {
+        if (isCurrent) setStatus({ userId, isAdmin: snapshot.exists() });
+      })
+      .catch((error) => {
+        console.error("Error checking admin status:", error);
+        if (isCurrent) setStatus({ userId, isAdmin: false });
+      });
 
-  return isAdmin;
+    return () => {
+      isCurrent = false;
+    };
+  }, [userId]);
+
+  const statusMatchesUser = status.userId === userId;
+  return {
+    isAdmin: statusMatchesUser && status.isAdmin,
+    loading: Boolean(userId) && !statusMatchesUser,
+  };
 };
 
 export default useAdmin;

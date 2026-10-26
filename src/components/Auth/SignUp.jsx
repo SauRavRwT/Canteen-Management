@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { Card, Form, Button, Alert, Container } from "react-bootstrap";
 import { motion } from "framer-motion";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import "./Auth.css";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -41,71 +42,75 @@ const SignUp = () => {
   };
 
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <motion.div 
-        className="w-100" 
-        style={{ maxWidth: "400px" }}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Card className="rounded-4 shadow-sm border-0">
-          <Card.Body>
-            <h2 className="mb-4 p-2 fw-bold">Sign Up</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-              {email && (
-                <div className="d-flex justify-content-center mb-3">
-                  <img
-                    src={`https://ui-avatars.com/api/?name=${splitEmail}&background=random`}
-                    alt="profile"
-                    className="rounded-circle"
-                    width="100"
-                    height="100"
-                  />
-                </div>
-              )}
-              <Form.Group id="email" className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <div className="d-flex align-items-center">
-                  <Form.Control
-                    type="email"
-                    value={email}
-                    onChange={handleEmailChange}
-                    required
-                  />
-                </div>
-              </Form.Group>
-              <Form.Group id="password" className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
+    <div className="auth-page">
+      <ThemeToggle className="theme-toggle-btn auth-theme-toggle" />
+      {/* Form Panel */}
+      <div className="auth-form-panel">
+        <motion.div
+          className="auth-form-wrapper"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="auth-card">
+            <div className="auth-card-header">
+              <h2>Create account</h2>
+              <p>Get started with your free account</p>
+            </div>
+
+            {email && (
+              <div className="auth-avatar">
+                <img
+                  src={`https://ui-avatars.com/api/?name=${splitEmail}&background=E23744&color=fff&size=88`}
+                  alt="profile"
+                />
+              </div>
+            )}
+
+            {error && <div className="auth-error">{error}</div>}
+
+            <form className="auth-form" onSubmit={handleSubmit}>
+              <div className="auth-input-group">
+                <label htmlFor="signup-email">Email</label>
+                <input
+                  id="signup-email"
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+
+              <div className="auth-input-group">
+                <label htmlFor="signup-password">Password</label>
+                <input
+                  id="signup-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Create a strong password"
                   required
                 />
-              </Form.Group>
-              <Button
-                disabled={loading}
-                className="w-100 rounded-4"
+              </div>
+
+              <button
                 type="submit"
+                className="auth-submit-btn"
+                disabled={loading}
               >
-                Sign Up
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-        <div className="w-100 text-center mt-2">
-          Already have an account?{" "}
-          <Link to="/login" className="text-decoration-none">
-            Log In
-          </Link>
-        </div>
-      </motion.div>
-    </Container>
+                {loading ? "Creating account..." : "Sign Up"}
+              </button>
+            </form>
+          </div>
+
+          <div className="auth-switch">
+            Already have an account?{" "}
+            <Link to="/login">Log In</Link>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 

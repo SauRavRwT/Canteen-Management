@@ -7,9 +7,9 @@ const SummaryComponent = ({ data, title }) => {
   return (
     <motion.div
       className="summary-card"
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <div className="summary-header">
         <h5 className="summary-title">{title} Summary</h5>
@@ -35,9 +35,9 @@ const SummaryComponent = ({ data, title }) => {
                 return (
                   <motion.tr
                     key={index}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0, x: -5 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.05 }}
+                    transition={{ duration: 0.2, delay: index * 0.03, ease: "easeOut" }}
                     whileHover={{ backgroundColor: "rgba(46, 125, 125, 0.05)" }}
                   >
                     <td className="product-col">{item.name}</td>

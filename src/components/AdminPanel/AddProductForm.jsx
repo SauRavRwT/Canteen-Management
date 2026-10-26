@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card, Form, Button } from "react-bootstrap";
 import { ref, push } from "firebase/database";
 import { database } from "../../firebase";
 
@@ -40,13 +39,17 @@ const AddProductForm = () => {
   };
 
   return (
-    <Card className="mb-4">
-      <Card.Header>Add New Product</Card.Header>
-      <Card.Body>
-        <Form onSubmit={handleAddProduct}>
-          <Form.Group controlId="addProduct-name">
-            <Form.Label>Product Name</Form.Label>
-            <Form.Control
+    <div className="glass-card">
+      <div style={{ padding: "1.15rem 1.5rem", borderBottom: "1px solid var(--border-color)" }}>
+        <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)" }}>Add New Product</h4>
+      </div>
+      <div style={{ padding: "1.5rem" }}>
+        <form onSubmit={handleAddProduct} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="addProduct-name">Product Name</label>
+            <input
+              className="form-control"
+              id="addProduct-name"
               type="text"
               name="productName"
               placeholder="Enter product name"
@@ -54,10 +57,12 @@ const AddProductForm = () => {
               onChange={(e) => setProductName(e.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group controlId="addProduct-initialPrice" className="mt-3">
-            <Form.Label>Initial Product Price (₹)</Form.Label>
-            <Form.Control
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="addProduct-initialPrice">Initial Product Price (₹)</label>
+            <input
+              className="form-control"
+              id="addProduct-initialPrice"
               type="number"
               name="initialPrice"
               step="0.1"
@@ -67,10 +72,12 @@ const AddProductForm = () => {
               onChange={(e) => setInitialPrices(e.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group controlId="addProduct-currentPrice" className="mt-3">
-            <Form.Label>Product Price (₹)</Form.Label>
-            <Form.Control
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="addProduct-currentPrice">Product Price (₹)</label>
+            <input
+              className="form-control"
+              id="addProduct-currentPrice"
               type="number"
               name="currentPrice"
               step="0.1"
@@ -80,11 +87,12 @@ const AddProductForm = () => {
               onChange={(e) => setProductPrice(e.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group controlId="addProduct-description" className="mt-3">
-            <Form.Label>Product Description</Form.Label>
-            <Form.Control
-              as="textarea"
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="addProduct-description">Product Description</label>
+            <textarea
+              className="form-control"
+              id="addProduct-description"
               name="description"
               rows={3}
               placeholder="Enter product description"
@@ -92,10 +100,12 @@ const AddProductForm = () => {
               onChange={(e) => setProductDescription(e.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group controlId="addProduct-image" className="mt-3">
-            <Form.Label>Product Image URL</Form.Label>
-            <Form.Control
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="addProduct-image">Product Image URL</label>
+            <input
+              className="form-control"
+              id="addProduct-image"
               type="url"
               name="imageUrl"
               placeholder="Enter product image URL"
@@ -103,13 +113,13 @@ const AddProductForm = () => {
               onChange={(e) => setProductImage(e.target.value)}
               required
             />
-          </Form.Group>
-          <Button variant="primary" type="submit" className="mt-4">
+          </div>
+          <button type="submit" className="btn btn-primary" style={{ marginTop: "0.5rem" }}>
             Add Product
-          </Button>
-        </Form>
-      </Card.Body>
-    </Card>
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

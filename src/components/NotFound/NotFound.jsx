@@ -11,7 +11,7 @@ import "./NotFound.css";
 const NotFound = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const isAdmin = useAdmin();
+  const { isAdmin, loading: adminStatusLoading } = useAdmin();
 
   const handleLogout = async () => {
     try {
@@ -44,7 +44,7 @@ const NotFound = () => {
     >
       <Header
         currentUser={currentUser}
-        isAdmin={isAdmin}
+        isAdmin={!adminStatusLoading && isAdmin}
         onLogout={handleLogout}
         onHomeClick={handleHomeClick}
         onAdminClick={handleAdminClick}

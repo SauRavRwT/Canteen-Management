@@ -1,58 +1,66 @@
 .summary-card {
-  background-color: var(--background-light);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: var(--glass-bg-strong);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-normal);
-  height: 100%;
+  gap: 14px;
+  box-shadow: var(--shadow-glass);
+  transition:
+    transform 0.3s var(--spring),
+    box-shadow 0.3s var(--ease);
+  height: auto;
 }
 
 .summary-card:hover {
+  transform: scale(1.005);
   box-shadow: var(--shadow-md);
-  border-color: var(--primary-light);
 }
 
 .summary-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 12px;
 }
 
 .summary-title {
-  font-size: 1.1rem;
+  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .summary-total {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: 2px;
 }
 
 .total-label {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .total-value {
-  font-size: 1.5rem;
+  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--primary);
+  letter-spacing: -0.02em;
 }
 
 .summary-table-container {
   overflow-y: auto;
-  max-height: 400px;
-  border-radius: 8px;
+  max-height: 360px;
+  border-radius: var(--radius-sm);
 }
 
 .summary-table {
@@ -62,59 +70,59 @@
 }
 
 .summary-table thead {
-  background-color: var(--background);
+  background-color: var(--bg-grouped);
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
 .summary-table th {
-  padding: 0.75rem;
+  padding: 8px 10px;
   text-align: left;
   font-weight: 600;
-  color: var(--text-primary);
-  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid var(--border-color);
+  letter-spacing: 0.04em;
+  border-bottom: 0.5px solid var(--separator);
 }
 
 .summary-table tbody tr {
-  border-bottom: 1px solid var(--border-color);
-  transition: background-color var(--transition-fast);
+  border-bottom: 0.5px solid var(--separator);
+  transition: background-color var(--t-fast);
 }
 
 .summary-table tbody tr:hover {
-  background-color: rgba(46, 125, 125, 0.05);
+  background-color: var(--primary-soft);
 }
 
 .summary-table td {
-  padding: 0.875rem 0.75rem;
-  font-size: 0.9rem;
+  padding: 10px;
+  font-size: 0.88rem;
   color: var(--text-primary);
 }
 
 .product-col {
-  font-weight: 500;
-}
-
-.profit-col {
-  color: var(--primary-color);
   font-weight: 600;
 }
 
+.profit-col {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .percentage-col {
-  min-width: 120px;
+  min-width: 100px;
 }
 
 .progress-bar-container {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 3px;
 }
 
 .progress-label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-secondary);
   font-weight: 600;
   text-align: right;
@@ -122,86 +130,80 @@
 
 .progress-bar {
   width: 100%;
-  height: 6px;
-  background-color: var(--border-color);
-  border-radius: 3px;
+  height: 4px;
+  background-color: var(--separator);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
-  border-radius: 3px;
-  transition: width var(--transition-normal);
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width var(--t-slow);
 }
 
 .no-data-message {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  color: var(--text-light);
+  padding: 24px;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .no-data-message p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
 }
 
-/* Responsive Design */
+/* responsive */
 @media (max-width: 768px) {
   .summary-card {
-    padding: 1.25rem;
-    gap: 1.25rem;
+    padding: 16px;
+    gap: 10px;
+    height: auto !important;
   }
 
   .summary-header {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .summary-total {
     align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 4px;
   }
 
   .summary-table th,
   .summary-table td {
-    padding: 0.65rem 0.5rem;
-    font-size: 0.8rem;
+    padding: 8px 6px;
+    font-size: 0.78rem;
   }
 
   .total-value {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
   .summary-card {
-    padding: 1rem;
-    gap: 1rem;
+    padding: 14px;
   }
 
   .summary-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .summary-table-container {
-    max-height: 300px;
+    max-height: 260px;
   }
 
   .summary-table th,
   .summary-table td {
-    padding: 0.5rem 0.35rem;
-    font-size: 0.75rem;
-  }
-
-  .summary-total {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .progress-label {
-    font-size: 0.65rem;
+    padding: 6px 4px;
+    font-size: 0.72rem;
   }
 }

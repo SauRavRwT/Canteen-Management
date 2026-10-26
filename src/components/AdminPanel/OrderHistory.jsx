@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { Card, Table, Form } from "react-bootstrap";
 import { database } from "../../firebase";
 import { ref, onValue } from "firebase/database";
+import { Skeleton } from "../Skeleton/Skeleton";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState({});
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [ordersLoading, setOrdersLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "date",
@@ -19,6 +21,7 @@ const OrderHistory = () => {
     const unsubscribe = onValue(productsRef, (snapshot) => {
       const productsData = snapshot.val();
       setProducts(productsData || {});
+      setProductsLoading(false);
     });
 
     return () => unsubscribe();
@@ -66,6 +69,7 @@ const OrderHistory = () => {
       const salesData = snapshot.val();
       const processedOrders = processOrders(salesData);
       setOrders(processedOrders);
+      setOrdersLoading(false);
     });
 
     return () => unsubscribe();
@@ -125,89 +129,89 @@ const OrderHistory = () => {
     });
   };
 
-  // Sticky header style for table
-  const stickyHeaderStyle = {
-    position: "sticky",
-    top: 0,
-    background: "#fff",
-    zIndex: 2,
-  };
-
   return (
-    <Card className="mt-4">
-      <Card.Header>
-        <Card.Title>Order History</Card.Title>
-        <Form.Control
+    <div className="glass-card" style={{ marginTop: "1rem" }}>
+      <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+        <h4 style={{ margin: 0, fontSize: "1.1rem", fontWeight: 700, color: "var(--text-primary)" }}>Order History</h4>
+        <input
           id="search"
           name="search"
           type="text"
           placeholder="Search your order..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="mt-2"
+          className="form-control"
           style={{ maxWidth: "300px" }}
         />
-      </Card.Header>
-      <Card.Body>
-        <div
-          className="table-responsive"
-          style={{ maxHeight: "400px", overflowY: "auto" }}
-        >
-          <Table striped bordered hover>
+      </div>
+      <div style={{ padding: "1.25rem" }}>
+        <div className="table-responsive" aria-busy={ordersLoading || productsLoading} style={{ maxHeight: "400px", overflowY: "auto" }}>
+          {(ordersLoading || productsLoading) && (
+            <span className="skeleton-announcement" role="status">Loading order history...</span>
+          )}
+          <table>
             <thead>
               <tr>
                 <th
-                  style={{ ...stickyHeaderStyle, cursor: "pointer" }}
+                  style={{ cursor: "pointer", position: "sticky", top: 0, background: "var(--glass-bg-strong)", zIndex: 2 }}
                   onClick={() => handleSort("date")}
                 >
-                  Date{" "}
-                  {sortConfig.key === "date" &&
-                    (sortConfig.direction === "asc" ? "↑" : "↓")}
+                  Date {sortConfig.key === "date" && (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
-                <th style={stickyHeaderStyle}>Order ID</th>
-                <th style={stickyHeaderStyle}>User Email</th>
-                <th style={stickyHeaderStyle}>Items</th>
+                <th style={{ position: "sticky", top: 0, background: "var(--glass-bg-strong)", zIndex: 2 }}>Order ID</th>
+                <th style={{ position: "sticky", top: 0, background: "var(--glass-bg-strong)", zIndex: 2 }}>User Email</th>
+                <th style={{ position: "sticky", top: 0, background: "var(--glass-bg-strong)", zIndex: 2 }}>Items</th>
                 <th
-                  style={{ ...stickyHeaderStyle, cursor: "pointer" }}
+                  style={{ cursor: "pointer", position: "sticky", top: 0, background: "var(--glass-bg-strong)", zIndex: 2 }}
                   onClick={() => handleSort("total")}
                 >
-                  Total{" "}
-                  {sortConfig.key === "total" &&
-                    (sortConfig.direction === "asc" ? "↑" : "↓")}
+                  Total {sortConfig.key === "total" && (sortConfig.direction === "asc" ? "↑" : "↓")}
                 </th>
-                <th style={stickyHeaderStyle}>Status</th>
+                <th style={{ position: "sticky", top: 0, background: "var(--glass-bg-strong)", zIndex: 2 }}>Status</th>
               </tr>
             </thead>
             <tbody>
-              {orders.length === 0 ? (
+              {ordersLoading || productsLoading ? (
+                Array.from({ length: 4 }, (_, index) => (
+                  <tr key={index} aria-hidden="true">
+                    {Array.from({ length: 6 }, (_, columnIndex) => (
+                      <td key={columnIndex}>
+                        <Skeleton className="history-skeleton-cell" />
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : orders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center">
+                  <td colSpan={6} className="text-center" style={{ color: "var(--text-secondary)" }}>
                     No orders found
                   </td>
                 </tr>
               ) : (
                 filterOrders(sortOrders(orders)).map((order) => (
                   <tr key={order.id}>
-                    <td>{formatDate(order.date)}</td>
-                    <td>{order.id}</td>
+                    <td style={{ whiteSpace: "nowrap" }}>{formatDate(order.date)}</td>
+                    <td style={{ fontFamily: "monospace", fontSize: "0.85rem" }}>{order.id}</td>
                     <td>{order.userEmail}</td>
                     <td>
                       {order.items.map((item, index) => (
-                        <div key={index}>
-                          {item.quantity}x {item.name} (₹{item.price} each)
+                        <div key={index} style={{ marginBottom: "0.25rem" }}>
+                          <span style={{ fontWeight: 600, color: "var(--primary)" }}>{item.quantity}x</span> {item.name} <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>(₹{item.price} each)</span>
                         </div>
                       ))}
                     </td>
-                    <td>₹{order.total.toFixed(2)}</td>
-                    <td>{order.status}</td>
+                    <td style={{ fontWeight: 700, color: "var(--primary)" }}>₹{order.total.toFixed(2)}</td>
+                    <td>
+                      <span className="badge badge-success">{order.status}</span>
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
-          </Table>
+          </table>
         </div>
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   );
 };
 

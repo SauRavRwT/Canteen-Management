@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap";
 import {
   ResponsiveContainer,
   PieChart,
@@ -8,13 +7,15 @@ import {
   Legend,
 } from "recharts";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
+const COLORS = ["#E23744", "#3B82F6", "#F59E0B", "#22C55E", "#8B5CF6"];
 
 const ChartComponent = ({ data, title }) => (
-  <Card className="mb-4">
-    <Card.Header>{title}</Card.Header>
-    <Card.Body className="d-flex justify-content-center">
-      <ResponsiveContainer width="100%" height={400}>
+  <div className="glass-card" style={{ marginBottom: "1.25rem", overflow: "hidden" }}>
+    <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border-color)" }}>
+      <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)" }}>{title}</h4>
+    </div>
+    <div style={{ padding: "1.25rem", display: "flex", justifyContent: "center" }}>
+      <ResponsiveContainer width="100%" height={360}>
         <PieChart>
           <Pie
             data={data}
@@ -37,10 +38,12 @@ const ChartComponent = ({ data, title }) => (
           <Tooltip 
             formatter={(value) => `₹${value.toFixed(2)}`}
             contentStyle={{ 
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              padding: '10px'
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-color)',
+              borderRadius: '8px',
+              padding: '10px',
+              color: 'var(--text-primary)',
+              boxShadow: 'var(--shadow-md)',
             }}
           />
           <Legend 
@@ -48,15 +51,16 @@ const ChartComponent = ({ data, title }) => (
             verticalAlign="bottom"
             align="center"
             wrapperStyle={{
-              paddingTop: '20px',
+              paddingTop: '16px',
               overflowY: 'auto',
-              maxHeight: '80px'
+              maxHeight: '80px',
+              color: 'var(--text-secondary)',
             }}
           />
         </PieChart>
       </ResponsiveContainer>
-    </Card.Body>
-  </Card>
+    </div>
+  </div>
 );
 
 export default ChartComponent;

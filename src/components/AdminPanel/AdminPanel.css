@@ -1,188 +1,108 @@
 .admin-panel-container {
-  padding: 2rem 1.5rem;
-  max-width: 1400px;
+  padding: 24px 20px;
+  max-width: 1080px;
   margin: 0 auto;
 }
 
 .admin-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 20px;
 }
 
 .admin-header {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 4px;
 }
 
 .admin-title {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--primary);
   margin: 0;
+  letter-spacing: -0.025em;
 }
 
 .admin-subtitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   margin: 0;
 }
 
+/* tabs */
 .admin-tabs {
   display: flex;
-  gap: 1rem;
-  border-bottom: 2px solid var(--border-color);
+  gap: 4px;
+  border-bottom: 0.5px solid var(--separator);
   overflow-x: auto;
   padding-bottom: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
 }
 
 .admin-tab {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
+  gap: 7px;
+  padding: 10px 16px;
   background: none;
   border: none;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: all var(--transition-normal);
-  font-size: 0.95rem;
-  position: relative;
-  border-bottom: 3px solid transparent;
+  transition:
+    color var(--t-fast),
+    border-bottom-color var(--t-fast);
+  font-size: 0.88rem;
+  border-bottom: 2.5px solid transparent;
   white-space: nowrap;
 }
 
 .admin-tab:hover {
-  color: var(--primary-color);
+  color: var(--primary);
 }
 
 .admin-tab.active {
-  color: var(--primary-color);
-  border-bottom-color: var(--primary-color);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
 .tab-icon {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
+/* content */
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  animation: fadeIn var(--transition-normal);
+  gap: 16px;
 }
 
-.statistics-row {
+.admin-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
 }
 
-.sellers-row {
+.admin-products-grid {
   display: grid;
-  gap: 2rem;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
 }
 
-/* Loading State */
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  gap: 1.5rem;
-  text-align: center;
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid var(--border-color);
-  border-top-color: var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-state p {
-  color: var(--text-secondary);
-  font-size: 1rem;
-  margin: 0;
-}
-
-/* Responsive Design */
+/* responsive */
 @media (max-width: 768px) {
-  .admin-panel-container {
-    padding: 1.5rem 1rem;
-  }
-
-  .admin-title {
-    font-size: 1.5rem;
-  }
-
-  .admin-tabs {
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .admin-tab {
-    padding: 0.875rem 1rem;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-  }
-
-  .statistics-row {
-    gap: 1.5rem;
-  }
-
-  .admin-content {
-    gap: 1.5rem;
-  }
+  .admin-panel-container { padding: 16px; }
+  .admin-title { font-size: 1.3rem; }
+  .admin-tabs { gap: 2px; }
+  .admin-tab { padding: 10px 12px; font-size: 0.82rem; gap: 5px; }
+  .admin-grid, .admin-products-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  .admin-panel-container {
-    padding: 1rem 0.75rem;
-  }
-
-  .admin-title {
-    font-size: 1.25rem;
-  }
-
-  .admin-subtitle {
-    font-size: 0.9rem;
-  }
-
-  .admin-tabs {
-    gap: 0;
-    margin-bottom: 1.5rem;
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
-    padding: 0 0.75rem 0 0.75rem;
-  }
-
-  .admin-tab {
-    padding: 0.75rem 0.85rem;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-  }
-
-  .tab-icon {
-    font-size: 0.9rem;
-  }
-
-  .statistics-row {
-    gap: 1rem;
-  }
+  .admin-panel-container { padding: 16px; }
+  .admin-title { font-size: 1.15rem; }
+  .admin-tab { padding: 8px 10px; font-size: 0.78rem; }
+  .tab-icon { font-size: 0.82rem; }
 }

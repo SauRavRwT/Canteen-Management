@@ -4,10 +4,11 @@ import { database } from "../firebase";
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const productsRef = ref(database, "products");
-    onValue(productsRef, (snapshot) => {
+    const unsubscribe = onValue(productsRef, (snapshot) => {
       const data = snapshot.val();
       const productList = data
         ? Object.keys(data).map((key) => ({
@@ -16,7 +17,10 @@ const useProducts = () => {
           }))
         : [];
       setProducts(productList);
+      setLoading(false);
     });
+
+    return () => unsubscribe();
   }, []);
 
   const updateProductQuantity = (id, newQuantity) => {
@@ -32,6 +36,7 @@ const useProducts = () => {
 
   return {
     products,
+    loading,
     updateProductQuantity,
   };
 };

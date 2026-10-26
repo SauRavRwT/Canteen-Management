@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { motion, AnimatePresence } from "framer-motion";
 import { database } from "../../firebase.js";
 import { ref, onValue } from "firebase/database";
@@ -13,22 +12,19 @@ import { useNavigate } from 'react-router-dom';
 import useAdmin from '../../hooks/useAdmin.jsx';
 import { FaChartLine, FaBox, FaClipboardList } from "react-icons/fa";
 import "./AdminPanel.css";
+import { AdminOverviewSkeleton, AdminProductsSkeleton } from "../Skeleton/Skeleton";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const isAdmin = useAdmin();
+  const { isAdmin, loading: adminStatusLoading } = useAdmin();
 
-  const [salesData, setSalesData] = useState({
-    weekly: [],
-    monthly: [],
-    yearly: [],
-    bestSellers: [],
-  });
+
   const [initialPrices, setInitialPrices] = useState({});
   const [products, setProducts] = useState({});
   const [rawSalesData, setRawSalesData] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
-  const [loading, setLoading] = useState(true);
+  const [salesLoading, setSalesLoading] = useState(true);
+  const [productsLoading, setProductsLoading] = useState(true);
 
   const dateRanges = useMemo(() => {
     const now = new Date();
@@ -118,23 +114,22 @@ const AdminPanel = () => {
   );
 
   useEffect(() => {
-    if (!isAdmin) {
-      navigate('/');
+    if (!adminStatusLoading && !isAdmin) {
+      navigate('/', { replace: true, state: null });
     }
-  }, [isAdmin, navigate]);
+  }, [adminStatusLoading, isAdmin, navigate]);
 
   useEffect(() => {
     const productsRef = ref(database, "products");
     const productsUnsubscribe = onValue(productsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const prices = Object.entries(data).reduce((acc, [id, product]) => {
-          acc[id] = product.initialPrice || 0;
-          return acc;
-        }, {});
-        setInitialPrices(prices);
-        setProducts(data);
-      }
+      const data = snapshot.val() || {};
+      const prices = Object.entries(data).reduce((acc, [id, product]) => {
+        acc[id] = product.initialPrice || 0;
+        return acc;
+      }, {});
+      setInitialPrices(prices);
+      setProducts(data);
+      setProductsLoading(false);
     });
 
     return () => productsUnsubscribe();
@@ -145,17 +140,17 @@ const AdminPanel = () => {
     const salesUnsubscribe = onValue(salesRef, (snapshot) => {
       const data = snapshot.val();
       setRawSalesData(data);
-      setLoading(false);
+      setSalesLoading(false);
     });
 
     return () => salesUnsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (rawSalesData && Object.keys(products).length > 0) {
-      const processedData = processData(rawSalesData);
-      setSalesData(processedData);
+  const salesData = useMemo(() => {
+    if (!rawSalesData || Object.keys(products).length === 0) {
+      return { weekly: [], monthly: [], yearly: [], bestSellers: [] };
     }
+    return processData(rawSalesData);
   }, [rawSalesData, products, processData]);
 
   const adminTabs = [
@@ -165,11 +160,11 @@ const AdminPanel = () => {
   ];
 
   return (
-    <Container fluid className="admin-panel-container">
+    <div className="admin-panel-container">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="admin-wrapper"
       >
         <div className="admin-header">
@@ -198,71 +193,58 @@ const AdminPanel = () => {
               {activeTab === 'overview' && (
                 <motion.div
                   key="overview"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className="admin-content"
                 >
-                  {loading ? (
-                    <div className="loading-state">
-                      <div className="spinner"></div>
-                      <p>Loading analytics...</p>
-                    </div>
+                  {salesLoading || productsLoading ? (
+                    <AdminOverviewSkeleton />
                   ) : (
                     <>
-                      <Row className="statistics-row">
-                        <Col xs={12} md={12} lg={12}>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 0.1 }}
-                          >
-                            <ChartComponent
-                              data={salesData.weekly}
-                              title="Weekly Profit Distribution"
-                            />
-                            <SummaryComponent data={salesData.weekly} title="Weekly" />
-                          </motion.div>
-                        </Col>
-                        <Col xs={12} md={12} lg={12}>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 0.15 }}
-                          >
-                            <ChartComponent
-                              data={salesData.monthly}
-                              title="Monthly Profit Distribution"
-                            />
-                            <SummaryComponent data={salesData.monthly} title="Monthly" />
-                          </motion.div>
-                        </Col>
-                        <Col xs={12} md={12} lg={12}>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 0.2 }}
-                          >
-                            <ChartComponent
-                              data={salesData.yearly}
-                              title="Yearly Profit Distribution"
-                            />
-                            <SummaryComponent data={salesData.yearly} title="Yearly" />
-                          </motion.div>
-                        </Col>
-                      </Row>
-                      <Row className="sellers-row">
-                        <Col xs={12}>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 0.25 }}
-                          >
-                            <BestSellersComponent bestSellers={salesData.bestSellers} />
-                          </motion.div>
-                        </Col>
-                      </Row>
+                      <div className="admin-grid">
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.25, delay: 0.05, ease: "easeOut" }}
+                        >
+                          <ChartComponent
+                            data={salesData.weekly}
+                            title="Weekly Profit Distribution"
+                          />
+                          <SummaryComponent data={salesData.weekly} title="Weekly" />
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.25, delay: 0.1, ease: "easeOut" }}
+                        >
+                          <ChartComponent
+                            data={salesData.monthly}
+                            title="Monthly Profit Distribution"
+                          />
+                          <SummaryComponent data={salesData.monthly} title="Monthly" />
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.25, delay: 0.15, ease: "easeOut" }}
+                        >
+                          <ChartComponent
+                            data={salesData.yearly}
+                            title="Yearly Profit Distribution"
+                          />
+                          <SummaryComponent data={salesData.yearly} title="Yearly" />
+                        </motion.div>
+                      </div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25, delay: 0.2, ease: "easeOut" }}
+                      >
+                        <BestSellersComponent bestSellers={salesData.bestSellers} />
+                      </motion.div>
                     </>
                   )}
                 </motion.div>
@@ -271,56 +253,52 @@ const AdminPanel = () => {
               {activeTab === 'products' && (
                 <motion.div
                   key="products"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className="admin-content"
                 >
-                  <Row>
-                    <Col xs={12} md={6}>
+                  {productsLoading ? (
+                    <AdminProductsSkeleton />
+                  ) : (
+                    <div className="admin-products-grid">
                       <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
                       >
                         <AddProductForm />
                       </motion.div>
-                    </Col>
-                    <Col xs={12} md={6}>
                       <motion.div
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.25, delay: 0.05, ease: "easeOut" }}
                       >
                         <UpdateQuantityForm products={products} setProducts={setProducts} />
                       </motion.div>
-                    </Col>
-                  </Row>
+                    </div>
+                  )}
                 </motion.div>
               )}
 
               {activeTab === 'orders' && (
                 <motion.div
                   key="orders"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
                   className="admin-content"
                 >
-                  <Row>
-                    <Col xs={12}>
-                      <OrderHistory isAdmin={true} />
-                    </Col>
-                  </Row>
+                  <OrderHistory isAdmin={true} />
                 </motion.div>
               )}
             </AnimatePresence>
           </>
         )}
       </motion.div>
-    </Container>
+    </div>
   );
 };
 

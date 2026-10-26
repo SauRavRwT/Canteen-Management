@@ -9,9 +9,9 @@ const BestSellersComponent = ({ bestSellers }) => {
   return (
     <motion.div
       className="best-sellers-card"
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <div className="sellers-header">
         <div className="header-left">
@@ -32,10 +32,10 @@ const BestSellersComponent = ({ bestSellers }) => {
                 <motion.div
                   key={index}
                   className="seller-item"
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.25, delay: index * 0.06, ease: "easeOut" }}
+                  whileHover={{ x: 2 }}
                 >
                   <div className="seller-rank">
                     <span className={`rank-badge ${medalColor}`}>
