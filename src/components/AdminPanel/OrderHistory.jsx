@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { database } from "../../firebase";
 import { ref, onValue } from "firebase/database";
-import { Skeleton } from "../Skeleton/Skeleton";
+import { TableRowsSkeleton } from "../Skeleton/Skeleton";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -172,15 +172,7 @@ const OrderHistory = () => {
             </thead>
             <tbody>
               {ordersLoading || productsLoading ? (
-                Array.from({ length: 4 }, (_, index) => (
-                  <tr key={index} aria-hidden="true">
-                    {Array.from({ length: 6 }, (_, columnIndex) => (
-                      <td key={columnIndex}>
-                        <Skeleton className="history-skeleton-cell" />
-                      </td>
-                    ))}
-                  </tr>
-                ))
+                <TableRowsSkeleton columns={6} />
               ) : orders.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="text-center" style={{ color: "var(--text-secondary)" }}>

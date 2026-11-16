@@ -67,15 +67,40 @@
   animation: float 6s ease-in-out infinite;
 }
 
-.brand-deco:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-.brand-deco:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
-.brand-deco:nth-child(3) { bottom: 25%; left: 20%; animation-delay: 2s; }
-.brand-deco:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 3s; }
-.brand-deco:nth-child(5) { top: 50%; left: 5%; animation-delay: 1.5s; }
+.brand-deco:nth-child(1) {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+.brand-deco:nth-child(2) {
+  top: 20%;
+  right: 15%;
+  animation-delay: 1s;
+}
+.brand-deco:nth-child(3) {
+  bottom: 25%;
+  left: 20%;
+  animation-delay: 2s;
+}
+.brand-deco:nth-child(4) {
+  bottom: 15%;
+  right: 10%;
+  animation-delay: 3s;
+}
+.brand-deco:nth-child(5) {
+  top: 50%;
+  left: 5%;
+  animation-delay: 1.5s;
+}
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(6deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(6deg);
+  }
 }
 
 /* form panel */
@@ -253,8 +278,17 @@
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
   font-weight: 500;
-  border-left: 3px solid var(--danger);
   animation: slideDown 0.3s ease;
+}
+
+.auth-message {
+  background-color: var(--primary-soft);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 16px;
 }
 
 /* responsive */
@@ -298,4 +332,138 @@
   .auth-submit-btn {
     padding: 12px;
   }
+}
+
+/* label row with inline action (e.g. "Forgot password?") */
+.auth-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-inline-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.auth-inline-link:hover {
+  opacity: 0.75;
+}
+
+.auth-inline-link:focus-visible,
+.auth-text-btn:focus-visible,
+.auth-secondary-btn:focus-visible,
+.auth-link-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* password reset: confirmation state */
+.auth-sent {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-sent .auth-card-header {
+  margin-bottom: 16px;
+}
+
+.auth-sent .auth-card-header p {
+  line-height: 1.55;
+}
+
+.auth-sent .auth-card-header strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.auth-sent-icon {
+  display: flex;
+  width: 52px;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 1.35rem;
+}
+
+.auth-hint {
+  margin: 0 0 20px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.auth-sent .auth-error {
+  margin-bottom: 16px;
+}
+
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-link-btn {
+  display: block;
+  margin-top: 0;
+  text-align: center;
+  text-decoration: none;
+}
+
+.auth-link-btn:hover {
+  color: #fff;
+}
+
+.auth-secondary-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-inset);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease);
+}
+
+.auth-secondary-btn:hover:not(:disabled) {
+  background: var(--border-strong);
+}
+
+.auth-secondary-btn:disabled {
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.auth-text-btn {
+  align-self: center;
+  margin-top: 2px;
+  padding: 6px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.auth-text-btn:hover {
+  color: var(--primary);
+}
+
+.auth-form > .auth-error,
+.auth-card > .auth-error {
+  margin-bottom: 16px;
 }

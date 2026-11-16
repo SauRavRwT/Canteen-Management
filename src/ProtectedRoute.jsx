@@ -1,21 +1,38 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
-import {
-  HomePageSkeleton,
-  PageSkeleton,
-} from "./components/Skeleton/Skeleton";
+import Header from "./components/Header/Header";
+import { RouteSkeleton } from "./components/Skeleton/Skeleton";
+import { readAdminHint } from "./hooks/useAdmin";
 
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (loading) {
-    if (location.pathname === "/") return <HomePageSkeleton />;
-    if (location.pathname === "/orders") return <PageSkeleton label="Loading orders" />;
-    return <PageSkeleton label="Verifying your session" />;
+    // Same shell as AuthenticatedLayout (real header, same page frame), so
+    // when the session resolves only the placeholders change, not the layout.
+    return (
+      <div className="app-shell" role="status" aria-label="Verifying your session">
+        <Header
+          loading
+          isAdmin={readAdminHint()}
+          onHomeClick={() => navigate("/")}
+          onOrdersClick={() => navigate("/orders")}
+          onAdminClick={() => navigate("/", { state: { showAdmin: true } })}
+          onLogout={() => {}}
+        />
+        <div className="app-shell-content">
+          <RouteSkeleton
+            pathname={location.pathname}
+            showAdmin={location.state?.showAdmin === true}
+          />
+        </div>
+      </div>
+    );
   }
 
-  if (!currentUser) {
+  if (!currentUser || !currentUser.emailVerified) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

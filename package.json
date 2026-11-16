@@ -40,5 +40,17 @@
     "gh-pages": "^6.3.0",
     "globals": "^17.5.0",
     "vite": "^8.0.10"
+  },
+  "description": "A web app for browsing a canteen menu, placing orders, and managing products and sales. Built with React and Firebase.",
+  "main": "deleteAllUsers.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SauRavRwT/Canteen-Management.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SauRavRwT/Canteen-Management/issues"
   }
 }

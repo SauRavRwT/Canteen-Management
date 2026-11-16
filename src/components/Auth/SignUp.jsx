@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+} from "firebase/auth";
 import { motion } from "framer-motion";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import "./Auth.css";
@@ -29,16 +34,34 @@ const SignUp = () => {
       setError("Invalid email format");
       return;
     }
+    let accountCreated = false;
     try {
       setError("");
       setLoading(true);
       const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      accountCreated = true;
+      await sendEmailVerification(user);
+      await signOut(auth);
+      navigate("/login", {
+        state: {
+          message: `We sent a verification link to ${email}. Verify your email before signing in.`,
+        },
+      });
     } catch (err) {
-      setError("Failed to create an account: " + err.message);
+      setError(
+        accountCreated
+          ? "Your account was created, but setup didn't finish. Sign in to request another verification email. " +
+              err.message
+          : "Failed to create an account: " + err.message,
+      );
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -77,7 +100,7 @@ const SignUp = () => {
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                  placeholder="you@example.com"
+                  placeholder="you@gmail.com"
                   required
                 />
               </div>
@@ -105,8 +128,7 @@ const SignUp = () => {
           </div>
 
           <div className="auth-switch">
-            Already have an account?{" "}
-            <Link to="/login">Log In</Link>
+            Already have an account? <Link to="/login">Log In</Link>
           </div>
         </motion.div>
       </div>

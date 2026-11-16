@@ -1,13 +1,53 @@
+/* ---------------------------------------------------------------------------
+   Base placeholder
+
+   The shimmer uses a viewport-fixed gradient, so every placeholder on screen
+   is lit by the same single wave instead of each block running its own
+   out-of-phase sweep (which reads as flicker). Only background-position is
+   animated: no layout or size changes, so nothing around it can jitter.
+--------------------------------------------------------------------------- */
+
+:root {
+  --skeleton-sheen: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="dark"] {
+  --skeleton-sheen: rgba(255, 255, 255, 0.07);
+}
+
 .skeleton {
   display: block;
-  overflow: hidden;
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base) 25%,
-    var(--skeleton-highlight) 50%,
-    var(--skeleton-base) 75%
+  flex-shrink: 0;
+  max-width: 100%;
+  border-radius: 8px;
+  background-color: var(--skeleton-base);
+  background-image: linear-gradient(
+    100deg,
+    transparent 40%,
+    var(--skeleton-sheen) 50%,
+    transparent 60%
   );
-  border-radius: var(--radius-sm);
+  background-repeat: no-repeat;
+  background-size: 200vw 100%;
+  background-attachment: fixed;
+  animation: skeleton-shimmer 2s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -130vw 0;
+  }
+  70%,
+  100% {
+    background-position: 30vw 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    background-image: none;
+    animation: none;
+  }
 }
 
 .skeleton-announcement {
@@ -22,405 +62,255 @@
   border: 0;
 }
 
-.page-skeleton {
-  width: min(100% - 40px, 1080px);
-  margin: 40px auto;
+/* Disabled inputs inside a skeleton keep their real look. */
+.home-search-input:disabled,
+.orders-search-input:disabled {
+  opacity: 1;
+  cursor: progress;
 }
 
-.page-skeleton-heading {
-  width: 240px;
-  height: 32px;
-  margin-bottom: 12px;
-}
+/* ---------------------------------------------------------------------------
+   Header
+--------------------------------------------------------------------------- */
 
-.page-skeleton-description {
-  width: min(420px, 80%);
-  height: 16px;
-  margin-bottom: 28px;
-}
-
-.page-skeleton-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.page-skeleton-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-  background: var(--glass-bg-strong);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-}
-
-.page-skeleton-image {
-  width: 100%;
-  height: 140px;
-}
-
-.page-skeleton-line {
-  width: 78%;
-  height: 14px;
-}
-
-.page-skeleton-line-short {
-  width: 48%;
-}
-
-.history-skeleton-cell {
-  width: 100%;
-  min-width: 64px;
-  height: 18px;
-}
-
-.home-page-skeleton {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-.home-skeleton-nav {
-  display: flex;
-  min-height: 58px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px max(20px, calc((100% - 1080px) / 2));
-  border-bottom: 1px solid var(--separator);
-  background: var(--glass-bg);
-}
-
-.home-skeleton-brand {
-  width: 188px;
-  height: 24px;
-}
-
-.home-skeleton-nav-items {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.home-skeleton-nav-item {
-  width: 58px;
-  height: 28px;
-}
-
-.home-skeleton-nav-item-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-}
-
-.home-skeleton-main {
-  width: min(100% - 40px, 1080px);
-  flex: 1;
-  margin: 0 auto;
-  padding: 24px 0 32px;
-}
-
-.home-skeleton-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.home-skeleton-title {
-  width: 210px;
-  height: 30px;
-}
-
-.home-skeleton-search {
-  width: min(340px, 42%);
-  height: 42px;
-  border-radius: var(--radius-full);
-}
-
-.home-skeleton-products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.home-skeleton-product-card {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  background: var(--glass-bg-strong);
-}
-
-.home-skeleton-product-image {
-  width: 100%;
-  height: 170px;
-  border-radius: 0;
-}
-
-.home-skeleton-product-body {
-  display: flex;
-  min-height: 178px;
-  flex: 1;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px;
-}
-
-.home-skeleton-product-name {
-  width: 76%;
-  height: 18px;
-}
-
-.home-skeleton-product-price {
-  width: 42%;
-  height: 24px;
-}
-
-.home-skeleton-product-stock {
-  width: 100%;
-  height: 34px;
-  margin-top: 2px;
-}
-
-.home-skeleton-product-button {
-  width: 100%;
-  height: 38px;
-  margin-top: auto;
-}
-
-.home-skeleton-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 28px 20px;
-  border-top: 1px solid var(--separator);
-  background: var(--glass-bg);
-}
-
-.home-skeleton-footer-line {
-  width: 210px;
-  height: 12px;
-}
-
-.home-skeleton-footer-line-short {
-  width: 150px;
-  height: 10px;
-}
-
-.about-page-skeleton {
-  min-height: 100vh;
-  color: var(--text-primary);
-}
-
-.about-skeleton-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 72px;
-  padding: 12px max(20px, calc((100% - 1080px) / 2));
-  background: var(--glass-bg);
-  border-bottom: 1px solid var(--separator);
-}
-
-.about-skeleton-brand {
-  width: 190px;
-  height: 22px;
-}
-
-.about-skeleton-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.about-skeleton-nav-link {
-  width: 48px;
-  height: 14px;
-}
-
-.about-skeleton-nav-button {
-  width: 84px;
-  height: 34px;
-  border-radius: var(--radius-full);
-}
-
-.about-skeleton-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 64px 20px 48px;
-}
-
-.about-skeleton-title {
-  width: min(480px, 82%);
-  height: 44px;
-  margin-bottom: 18px;
-}
-
-.about-skeleton-copy {
-  width: min(580px, 85%);
-  height: 14px;
-  margin-bottom: 10px;
-}
-
-.about-skeleton-copy-short {
-  width: min(410px, 66%);
-}
-
-.about-skeleton-cta {
-  width: 168px;
-  height: 44px;
-  margin-top: 14px;
-  border-radius: var(--radius-full);
-}
-
-.about-skeleton-section {
-  padding: 40px 20px 48px;
-}
-
-.about-skeleton-section-title {
-  width: 230px;
-  height: 28px;
-  margin: 0 auto 16px;
-}
-
-.about-skeleton-intro {
-  margin: 0 auto 30px;
-}
-
-.about-skeleton-feature-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.about-skeleton-feature {
-  display: flex;
-  min-height: 176px;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 22px 18px;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  background: var(--glass-bg-strong);
-}
-
-.about-skeleton-icon {
+.header-skeleton-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
 }
 
-.about-skeleton-card-title {
-  width: 62%;
-  height: 16px;
-}
-
-.about-skeleton-card-copy {
-  width: 92%;
-  height: 12px;
-}
-
-.about-skeleton-card-copy-short {
-  width: 72%;
-}
-
-.about-skeleton-lower {
-  background: var(--bg-grouped);
-}
-
-.about-skeleton-feature-grid-compact {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.admin-skeleton-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  align-items: start;
-  gap: 12px;
-}
-
-.admin-skeleton-page-title {
-  width: 220px;
-  height: 30px;
-  margin-bottom: 4px;
-}
-
-.admin-skeleton-page-subtitle {
-  width: min(320px, 80%);
-  height: 14px;
-}
-
-.admin-skeleton-tabs {
-  display: flex;
-  gap: 8px;
-  padding: 0 0 10px;
-  border-bottom: 1px solid var(--separator);
-}
-
-.admin-skeleton-tab {
-  width: 92px;
-  height: 38px;
+.header-skeleton-logout {
+  width: 84px;
+  height: 34px;
   border-radius: var(--radius-sm);
 }
 
-.admin-skeleton-tab-active {
-  box-shadow: inset 0 -3px var(--primary);
+/* ---------------------------------------------------------------------------
+   Product cards: heights match the rendered line boxes of the real card
+   (name 1.3lh, price 1.5lh, quantity pill, button) so cards keep their size.
+--------------------------------------------------------------------------- */
+
+.product-card-skeleton,
+.admin-skeleton-chart-card,
+.admin-skeleton-summary,
+.admin-skeleton-bestsellers,
+.admin-skeleton-form {
+  cursor: default;
+  pointer-events: none;
+}
+
+.product-skeleton-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.product-skeleton-name {
+  width: 76%;
+  height: 16px;
+  margin: 2px 0;
+}
+
+.product-skeleton-price {
+  width: 42%;
+  height: 22px;
+  margin: 4px 0 5px;
+}
+
+.product-skeleton-quantity {
+  width: 100%;
+  height: 39px;
+  border-radius: var(--radius-sm);
+}
+
+.product-skeleton-button {
+  width: 100%;
+  height: 41px;
+  margin-top: auto;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 768px) {
+  .product-skeleton-name {
+    height: 14px;
+  }
+
+  .product-skeleton-price {
+    height: 20px;
+    margin: 4px 0;
+  }
+
+  .product-skeleton-button {
+    height: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-skeleton-name {
+    height: 13px;
+  }
+
+  .product-skeleton-price {
+    height: 18px;
+    margin: 3px 0 4px;
+  }
+
+  .product-skeleton-button {
+    height: 38px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tables
+--------------------------------------------------------------------------- */
+
+.history-skeleton-cell {
+  min-width: 48px;
+  height: 14px;
+  margin: 3px 0;
+}
+
+/* ---------------------------------------------------------------------------
+   About (sized to the line boxes of the real hero, headings and cards)
+--------------------------------------------------------------------------- */
+
+.about-skeleton-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-skeleton-title {
+  /* Same font-size clamp and 1.15 line-height as .hero-title, so each bar
+     occupies exactly one rendered title line at every width. */
+  width: min(560px, 92%);
+  font-size: clamp(1.85rem, 7vw, 2.75rem);
+  height: 0.8em;
+  margin: 0.175em 0;
+}
+
+.about-skeleton-title-short {
+  width: min(360px, 64%);
+  margin-bottom: calc(0.175em + 12px);
+}
+
+.about-skeleton-line {
+  /* Matches .hero-subtitle / .section-header p (1.65 line-height). */
+  width: min(560px, 90%);
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
+  height: 0.85em;
+  margin: 0.4em 0;
+}
+
+.about-skeleton-line-short {
+  width: min(380px, 62%);
+}
+
+/* On wide screens the real subtitle and card copy fit on one line. */
+@media (min-width: 769px) {
+  .about-hero .about-skeleton-line-short {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature-card .about-skeleton-line-short {
+    display: none;
+  }
+}
+
+.about-skeleton-cta {
+  width: 186px;
+  height: 47px;
+  margin-top: 28px;
+  border-radius: var(--radius-full);
+}
+
+.about-skeleton-heading {
+  width: min(240px, 60%);
+  height: clamp(1.2rem, 4.2vw, 1.6rem);
+  margin: 4px 0 12px;
+}
+
+.about-skeleton-icon {
+  width: 28px;
+  height: 28px;
+  margin: 7px 0 17px;
+  border-radius: 50%;
+}
+
+.about-skeleton-card-title {
+  width: 60%;
+  height: 16px;
+  margin-bottom: 10px;
+}
+
+.about-skeleton-card-line {
+  width: 92%;
+  height: 12px;
+  margin: 5px 0;
+}
+
+.about-skeleton-step-title {
+  width: 42%;
+  height: 15px;
+  margin: 2px 0 7px;
+}
+
+.about-skeleton-step-line {
+  width: 86%;
+  height: 12px;
+  margin: 5px 0;
+}
+
+.about-skeleton-github {
+  width: 160px;
+  height: 44px;
+  border-radius: var(--radius-md);
+}
+
+/* ---------------------------------------------------------------------------
+   Admin
+--------------------------------------------------------------------------- */
+
+.admin-tab-placeholder {
+  cursor: progress;
 }
 
 .admin-skeleton-column {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 12px;
+  gap: 1.25rem;
 }
 
-.admin-skeleton-card {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 14px;
-  padding: 18px;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  background: var(--glass-bg-strong);
+.admin-skeleton-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .admin-skeleton-heading {
   width: 62%;
-  height: 18px;
+  height: 16px;
+  margin: 4px 0;
 }
 
-.admin-skeleton-chart-card {
-  min-height: 478px;
-}
-
+/* Matches the 360px recharts container plus card padding. */
 .admin-skeleton-chart {
   display: flex;
-  min-height: 405px;
-  flex: 1;
+  height: calc(360px + 2.5rem);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  padding: 16px 0;
+  gap: 28px;
+  padding: 1.25rem;
 }
 
 .admin-skeleton-donut {
-  width: 170px;
-  height: 170px;
-  border: 24px solid var(--skeleton-base);
+  width: 200px;
+  height: 200px;
+  border: 40px solid var(--skeleton-base);
   border-radius: 50%;
-  background: transparent;
-  animation: none;
 }
 
 .admin-skeleton-legend {
@@ -466,15 +356,17 @@
 .admin-skeleton-table-heading > *,
 .admin-skeleton-table-row > * {
   width: 100%;
-  height: 16px;
+  height: 14px;
 }
 
 .admin-skeleton-table-heading > * {
-  height: 12px;
+  height: 10px;
 }
 
 .admin-skeleton-bestsellers {
-  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .admin-skeleton-best-row {
@@ -490,22 +382,23 @@
 }
 
 .admin-skeleton-best-name {
-  width: min(320px, 65%);
-  height: 16px;
+  width: min(320px, 60%);
+  height: 14px;
 }
 
 .admin-skeleton-best-quantity {
   width: 76px;
   height: 24px;
   margin-left: auto;
-}
-
-.admin-products-skeleton {
-  position: relative;
+  border-radius: var(--radius-full);
 }
 
 .admin-skeleton-form {
+  display: flex;
   min-height: 300px;
+  flex-direction: column;
+  gap: 14px;
+  padding: 1.5rem;
 }
 
 .admin-skeleton-form-copy {
@@ -527,164 +420,13 @@
 
 .admin-skeleton-field-input {
   width: 100%;
-  height: 40px;
+  height: 46px;
+  border-radius: var(--radius-sm);
 }
 
 .admin-skeleton-form-button {
   width: 42%;
-  height: 40px;
+  height: 42px;
   margin-top: auto;
-}
-
-@media (max-width: 768px) {
-  .admin-skeleton-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skeleton {
-    animation: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-skeleton-nav {
-    min-height: 54px;
-    padding: 10px 16px;
-  }
-
-  .home-skeleton-brand {
-    width: 142px;
-  }
-
-  .home-skeleton-nav-items {
-    gap: 8px;
-  }
-
-  .home-skeleton-nav-item:not(.home-skeleton-nav-item-circle) {
-    display: none;
-  }
-
-  .home-skeleton-main {
-    width: min(100% - 32px, 1080px);
-    padding-top: 20px;
-  }
-
-  .home-skeleton-heading {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    margin-bottom: 18px;
-  }
-
-  .home-skeleton-title {
-    width: 170px;
-    height: 26px;
-  }
-
-  .home-skeleton-search {
-    width: 100%;
-  }
-
-  .home-skeleton-products {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .home-skeleton-product-image {
-    height: 120px;
-  }
-
-  .home-skeleton-product-body {
-    min-height: 158px;
-    gap: 7px;
-    padding: 10px;
-  }
-
-  .home-skeleton-product-name {
-    height: 16px;
-  }
-
-  .home-skeleton-product-price {
-    height: 20px;
-  }
-
-  .home-skeleton-product-stock {
-    height: 30px;
-  }
-
-  .home-skeleton-product-button {
-    height: 34px;
-  }
-
-  .page-skeleton {
-    width: min(100% - 32px, 1080px);
-    margin: 24px auto;
-  }
-
-  .page-skeleton-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .page-skeleton-image {
-    height: 120px;
-  }
-
-  .about-skeleton-nav {
-    min-height: 60px;
-    padding: 12px 16px;
-  }
-
-  .about-skeleton-brand {
-    width: 120px;
-  }
-
-  .about-skeleton-nav-links {
-    gap: 8px;
-  }
-
-  .about-skeleton-nav-link {
-    display: none;
-  }
-
-  .about-skeleton-hero {
-    padding: 48px 16px 32px;
-  }
-
-  .about-skeleton-title {
-    height: 34px;
-  }
-
-  .about-skeleton-section {
-    padding: 32px 16px;
-  }
-
-  .about-skeleton-feature-grid,
-  .about-skeleton-feature-grid-compact {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .about-skeleton-feature {
-    min-height: 150px;
-    padding: 16px 10px;
-  }
-
-  .admin-skeleton-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .admin-skeleton-chart-card {
-    min-height: 0;
-  }
-
-  .admin-skeleton-chart {
-    min-height: 320px;
-  }
-
-  .admin-skeleton-bestsellers {
-    grid-column: auto;
-  }
+  border-radius: var(--radius-sm);
 }

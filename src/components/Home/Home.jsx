@@ -1,10 +1,9 @@
-import { useState, useMemo, lazy, Suspense } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import ProductList from "../ProductList/ProductList";
 import CartModal from "../CartModal/CartModal";
 import ProductDetailModal from "../ProductDetail/ProductDetailModal";
 import Footer from "../Footer/Footer";
-const AdminPanel = lazy(() => import("../AdminPanel/AdminPanel"));
 import useProducts from "../../hooks/useProducts";
 import { useAuth } from "../../AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,6 +11,7 @@ import { useCart } from "../../hooks/useCart";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import "./Home.css";
 import { AdminDashboardSkeleton } from "../Skeleton/Skeleton";
+import { AdminPanel } from "../../lazyPages";
 
 const Home = () => {
   const location = useLocation();
@@ -80,9 +80,7 @@ const Home = () => {
       <main className="home-main">
         <div className="container">
           {showAdmin && currentUser ? (
-            <Suspense fallback={
-              <AdminDashboardSkeleton />
-            }>
+            <Suspense fallback={<AdminDashboardSkeleton />}>
               <AdminPanel />
             </Suspense>
           ) : (

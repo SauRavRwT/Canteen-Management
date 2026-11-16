@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import { Skeleton } from "../Skeleton/Skeleton";
 import "./Header.css";
 
 const Header = ({
@@ -20,6 +21,7 @@ const Header = ({
   onHomeClick,
   onAdminClick,
   onOrdersClick,
+  loading = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -91,8 +93,15 @@ const Header = ({
           {/* Theme Toggle */}
           <ThemeToggle />
 
-          {/* User Section */}
-          {currentUser && (
+          {/* User Section: placeholder keeps the nav width stable while the
+              session is restored, so the links don't slide when it resolves. */}
+          {loading && (
+            <div className="user-section" aria-hidden="true">
+              <Skeleton className="header-skeleton-avatar" />
+              <Skeleton className="header-skeleton-logout" />
+            </div>
+          )}
+          {!loading && currentUser && (
             <div className="user-section">
               <img
                 src={`https://ui-avatars.com/api/?name=${currentUser.email}&background=E23744&color=fff`}

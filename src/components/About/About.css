@@ -167,7 +167,7 @@
   border-radius: var(--radius-md);
   flex: 1;
   border: 0.5px solid var(--glass-border);
-  border-left: 3px solid var(--primary);
+  /* border-left: 3px solid var(--primary); */
 }
 
 .step-content h4 {

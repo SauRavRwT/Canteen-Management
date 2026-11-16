@@ -1,17 +1,25 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+} from "firebase/auth";
 import { motion } from "framer-motion";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import "./Auth.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const initialEmail = location.state?.email || "";
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [splitEmail, setSplitEmail] = useState("");
-  const navigate = useNavigate();
+  const [splitEmail, setSplitEmail] = useState(initialEmail.split("@")[0] || "");
+  const [message, setMessage] = useState(location.state?.message || "");
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,14 +39,27 @@ const Login = () => {
     }
     try {
       setError("");
+      setMessage("");
       setLoading(true);
       const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      if (!user.emailVerified) {
+        try {
+          await sendEmailVerification(user);
+          setMessage(
+            `This email isn't verified yet. We sent a new verification link to ${email}.`,
+          );
+        } finally {
+          await signOut(auth);
+        }
+        return;
+      }
+      navigate(location.state?.from?.pathname || "/");
     } catch (err) {
       setError("Failed to sign in: " + err.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -67,6 +88,11 @@ const Login = () => {
               </div>
             )}
 
+            {message && (
+              <div className="auth-message" role="status">
+                {message}
+              </div>
+            )}
             {error && <div className="auth-error">{error}</div>}
 
             <form className="auth-form" onSubmit={handleSubmit}>
@@ -77,18 +103,29 @@ const Login = () => {
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                  placeholder="you@example.com"
+                  autoComplete="email"
+                  placeholder="you@gmail.com"
                   required
                 />
               </div>
 
               <div className="auth-input-group">
-                <label htmlFor="login-password">Password</label>
+                <div className="auth-label-row">
+                  <label htmlFor="login-password">Password</label>
+                  <Link
+                    to="/forgot-password"
+                    state={{ email }}
+                    className="auth-inline-link"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
                 <input
                   id="login-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                   placeholder="Enter your password"
                   required
                 />
@@ -105,8 +142,7 @@ const Login = () => {
           </div>
 
           <div className="auth-switch">
-            Need an account?{" "}
-            <Link to="/signup">Sign Up</Link>
+            Need an account? <Link to="/signup">Sign Up</Link>
           </div>
         </motion.div>
       </div>

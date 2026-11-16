@@ -18,7 +18,7 @@ A web app for browsing a canteen menu, placing orders, and managing products and
 - Review order history and export it as a PDF.
 - Manage products and inventory as an administrator.
 - View sales summaries, charts, and best-selling products.
-- Sign in and sign up with Firebase Authentication.
+- Sign in and sign up with Firebase Authentication; verify your email before using the app.
 - Use the app on desktop and mobile screens.
 
 ## Built with

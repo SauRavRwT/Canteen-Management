@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import useAdmin from '../../hooks/useAdmin.jsx';
 import { FaChartLine, FaBox, FaClipboardList } from "react-icons/fa";
 import "./AdminPanel.css";
-import { AdminOverviewSkeleton, AdminProductsSkeleton } from "../Skeleton/Skeleton";
+import { AdminOverviewSkeleton, AdminProductsSkeleton, AdminTabsSkeleton } from "../Skeleton/Skeleton";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -161,18 +161,20 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-panel-container">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="admin-wrapper"
-      >
+      <div className="admin-wrapper">
         <div className="admin-header">
           <h1 className="admin-title">Admin Dashboard</h1>
           <p className="admin-subtitle">Manage your canteen operations efficiently</p>
         </div>
 
-        {isAdmin && (
+        {adminStatusLoading && (
+          <>
+            <AdminTabsSkeleton activeTab={activeTab} />
+            <AdminOverviewSkeleton />
+          </>
+        )}
+
+        {!adminStatusLoading && isAdmin && (
           <>
             <div className="admin-tabs">
               {adminTabs.map((tab) => (
@@ -189,7 +191,7 @@ const AdminPanel = () => {
               ))}
             </div>
 
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               {activeTab === 'overview' && (
                 <motion.div
                   key="overview"
@@ -205,8 +207,8 @@ const AdminPanel = () => {
                     <>
                       <div className="admin-grid">
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
                           transition={{ duration: 0.25, delay: 0.05, ease: "easeOut" }}
                         >
                           <ChartComponent
@@ -216,8 +218,8 @@ const AdminPanel = () => {
                           <SummaryComponent data={salesData.weekly} title="Weekly" />
                         </motion.div>
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
                           transition={{ duration: 0.25, delay: 0.1, ease: "easeOut" }}
                         >
                           <ChartComponent
@@ -227,8 +229,8 @@ const AdminPanel = () => {
                           <SummaryComponent data={salesData.monthly} title="Monthly" />
                         </motion.div>
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
                           transition={{ duration: 0.25, delay: 0.15, ease: "easeOut" }}
                         >
                           <ChartComponent
@@ -239,8 +241,8 @@ const AdminPanel = () => {
                         </motion.div>
                       </div>
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 0.25, delay: 0.2, ease: "easeOut" }}
                       >
                         <BestSellersComponent bestSellers={salesData.bestSellers} />
@@ -264,15 +266,15 @@ const AdminPanel = () => {
                   ) : (
                     <div className="admin-products-grid">
                       <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 0.25, ease: "easeOut" }}
                       >
                         <AddProductForm />
                       </motion.div>
                       <motion.div
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 0.25, delay: 0.05, ease: "easeOut" }}
                       >
                         <UpdateQuantityForm products={products} setProducts={setProducts} />
@@ -297,7 +299,7 @@ const AdminPanel = () => {
             </AnimatePresence>
           </>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { database } from '../../firebase';
 import { ref, onValue } from 'firebase/database';
 import { useAuth } from '../../AuthContext';
-import { Skeleton } from "../Skeleton/Skeleton";
+import { TableRowsSkeleton } from "../Skeleton/Skeleton";
 import "./Orders.css";
 
 const UserOrderHistory = () => {
@@ -149,15 +149,7 @@ const UserOrderHistory = () => {
             </thead>
             <tbody>
               {isLoading ? (
-                Array.from({ length: 4 }, (_, index) => (
-                  <tr key={index} aria-hidden="true">
-                    {Array.from({ length: 5 }, (_, columnIndex) => (
-                      <td key={columnIndex}>
-                        <Skeleton className="history-skeleton-cell" />
-                      </td>
-                    ))}
-                  </tr>
-                ))
+                <TableRowsSkeleton columns={5} />
               ) : visibleOrders.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="orders-empty-state">

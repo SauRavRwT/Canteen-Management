@@ -1,30 +1,9 @@
 import "./ProductList.css";
 import { FaPlus, FaEye } from "react-icons/fa";
-import { Skeleton } from "../Skeleton/Skeleton";
+import { ProductGridSkeleton } from "../Skeleton/Skeleton";
 
 const ProductList = ({ products, addToCart, onProductClick, loading = false }) => {
-  if (loading) {
-    return (
-      <div className="products-grid" role="status" aria-label="Loading products">
-        <span className="skeleton-announcement">Loading products...</span>
-        {Array.from({ length: 6 }, (_, index) => (
-          <div className="product-card-wrapper" key={index} aria-hidden="true">
-            <div className="product-card product-card-skeleton">
-              <div className="product-image-container">
-                <Skeleton className="product-skeleton-image" />
-              </div>
-              <div className="product-body">
-                <Skeleton className="product-skeleton-name" />
-                <Skeleton className="product-skeleton-price" />
-                <Skeleton className="product-skeleton-quantity" />
-                <Skeleton className="product-skeleton-button" />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+  if (loading) return <ProductGridSkeleton />;
 
   // Validate and sanitize products
   const validProducts = (products || []).map(product => ({

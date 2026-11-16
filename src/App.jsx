@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { lazy } from 'react';
 import "./App.css";
 import { AuthProvider } from './AuthContext';
 import { ThemeProvider } from './ThemeContext';
@@ -10,8 +9,9 @@ import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
 import NotFound from './components/NotFound/NotFound';
 import AuthenticatedLayout from './components/Layout/AuthenticatedLayout';
+import ForgotPassword from './components/Auth/ForgotPassword';
+import { About } from './lazyPages';
 
-const About = lazy(() => import('./components/About/About'));
 const deploymentBasePath = import.meta.env.BASE_URL.replace(/\/+$/, '');
 const basename =
   deploymentBasePath &&
@@ -42,6 +42,7 @@ const App = () => {
             </Route>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

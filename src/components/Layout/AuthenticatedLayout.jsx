@@ -1,23 +1,33 @@
-import { useState, Suspense } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useState, useEffect, Suspense } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { AnimatePresence, motion } from "framer-motion";
 import { auth } from "../../firebase";
 import { useAuth } from "../../AuthContext";
-import useAdmin from "../../hooks/useAdmin";
+import useAdmin, { clearAdminHint } from "../../hooks/useAdmin";
 import Header from "../Header/Header";
-import { PageSkeleton } from "../Skeleton/Skeleton";
+import { RouteSkeleton } from "../Skeleton/Skeleton";
+import { loadAbout, loadAdminPanel, preloadWhenIdle } from "../../lazyPages";
 
 const AuthenticatedLayout = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { isAdmin, loading: adminStatusLoading } = useAdmin();
+  const location = useLocation();
+  const { showAdminLink } = useAdmin();
   const [logoutError, setLogoutError] = useState("");
+
+  // Warm up lazy page chunks once the current page is idle, so navigating to
+  // them rarely has to show a fallback at all.
+  useEffect(
+    () => preloadWhenIdle(...(showAdminLink ? [loadAbout, loadAdminPanel] : [loadAbout])),
+    [showAdminLink],
+  );
 
   const handleLogout = async () => {
     try {
       setLogoutError("");
       await signOut(auth);
+      clearAdminHint();
       navigate("/login");
     } catch (error) {
       console.error("Error logging out:", error);
@@ -29,7 +39,7 @@ const AuthenticatedLayout = () => {
     <div className="app-shell">
       <Header
         currentUser={currentUser}
-        isAdmin={!adminStatusLoading && isAdmin}
+        isAdmin={showAdminLink}
         onLogout={handleLogout}
         onHomeClick={() => navigate("/")}
         onAdminClick={() => navigate("/", { state: { showAdmin: true } })}
@@ -51,7 +61,14 @@ const AuthenticatedLayout = () => {
         )}
       </AnimatePresence>
       <div className="app-shell-content">
-        <Suspense fallback={<PageSkeleton label="Loading page" />}>
+        <Suspense
+          fallback={
+            <RouteSkeleton
+              pathname={location.pathname}
+              showAdmin={location.state?.showAdmin === true}
+            />
+          }
+        >
           <Outlet />
         </Suspense>
       </div>

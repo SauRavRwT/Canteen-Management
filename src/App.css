@@ -293,19 +293,19 @@ select.form-control,
 .alert-danger {
   background-color: var(--danger-soft);
   color: var(--danger);
-  border-left: 3px solid var(--danger);
+  /* border-left: 3px solid var(--danger); */
 }
 
 .alert-success {
   background-color: var(--success-soft);
   color: var(--success);
-  border-left: 3px solid var(--success);
+  /* border-left: 3px solid var(--success); */
 }
 
 .alert-warning {
   background-color: var(--warning-soft);
   color: var(--warning);
-  border-left: 3px solid var(--warning);
+  /* border-left: 3px solid var(--warning); */
 }
 
 /* badge */
@@ -478,12 +478,12 @@ table tbody tr:hover {
   min-width: 260px;
 }
 
-.toast-success {
+/* .toast-success {
   border-left: 3px solid var(--success);
 }
 .toast-danger {
   border-left: 3px solid var(--danger);
-}
+} */
 
 .toast-close {
   background: none;
